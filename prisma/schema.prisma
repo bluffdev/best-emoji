@@ -21,7 +21,7 @@ model Emoji {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String
-  htmlCode  String
+  unicode   String
   wins      Int
   total     Int
 }

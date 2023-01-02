@@ -5,15 +5,23 @@ type HttpResponse = {
   category: string;
   group: string;
   htmlCode: string[];
-  unicode: string;
+  unicode: string[];
 };
 
 type Emoji = {
   name: string;
-  htmlCode: string;
+  unicode: string;
 };
 
 (async function fill() {
+  function formatUnicodeString(unicode: string[]) {
+    if (unicode[0]) {
+      return String.fromCodePoint(
+        parseInt(unicode[0].replace(/[U+]/g, ""), 16)
+      );
+    }
+  }
+
   let emojis = await fetch("https://emojihub.yurace.pro/api/all")
     .then((res) => {
       if (!res.ok) {
@@ -23,17 +31,21 @@ type Emoji = {
     })
     .then((data) =>
       (data as Array<HttpResponse>).map(
-        ({ name, htmlCode }) => ({ name: name, htmlCode: htmlCode[0] } as Emoji)
+        ({ name, unicode }) =>
+          ({
+            name: name,
+            unicode: formatUnicodeString(unicode),
+          } as Emoji)
       )
     );
 
   const prisma = new PrismaClient();
 
-  for (const { name, htmlCode } of emojis) {
+  for (const { name, unicode } of emojis) {
     await prisma.emoji.create({
       data: {
         name: name,
-        htmlCode: htmlCode,
+        unicode: unicode,
         wins: 0,
         total: 0,
       },
