@@ -1,12 +1,12 @@
+import { Emoji } from "@prisma/client";
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 
 import { trpc } from "../utils/trpc";
 
 export const Home: NextPage = () => {
-  const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
-  const meme = trpc.example.meme.useQuery({ text: "fuck" });
+  // const emoji = (trpc.emoji.getRandom.useQuery().data as Emoji[])[0];
+  const emoji = trpc.emoji.getRandom.useQuery();
 
   return (
     <>
@@ -16,8 +16,8 @@ export const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <h1>{hello.data?.greeting}</h1>
-        <div>&#128512;</div>
+        {/* {`\\u1F601`} */}
+        {emoji.data?.unicode}
       </main>
     </>
   );
