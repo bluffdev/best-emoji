@@ -1,6 +1,6 @@
 import { type NextApiRequest, type NextApiResponse } from "next";
 
-import { prisma } from "../../server/db/client";
+import { prisma } from "../../../server/db/client";
 
 const emojis = async (req: NextApiRequest, res: NextApiResponse) => {
   const emojiCount = await prisma.emoji.count();

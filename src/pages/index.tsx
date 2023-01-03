@@ -1,12 +1,10 @@
-import { Emoji } from "@prisma/client";
 import { type NextPage } from "next";
 import Head from "next/head";
 
 import { trpc } from "../utils/trpc";
 
 export const Home: NextPage = () => {
-  // const emoji = (trpc.emoji.getRandom.useQuery().data as Emoji[])[0];
-  const emoji = trpc.emoji.getRandom.useQuery();
+  const emoji = trpc.emoji.random.useQuery();
 
   return (
     <>
@@ -16,7 +14,6 @@ export const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        {/* {`\\u1F601`} */}
         {emoji.data?.unicode}
       </main>
     </>
