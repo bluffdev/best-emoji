@@ -8,6 +8,12 @@ export const Results: NextPage = () => {
     return total === 0 ? 0 : (wins / total) * 100;
   }
 
+  emojis.data?.sort((a, b) => {
+    let percentA = calcPercentage(a.wins, a.total);
+    let percentB = calcPercentage(b.wins, b.total);
+    return percentB - percentA;
+  })
+
   return (
     <>
       <div className="flex flex-col items-center">
